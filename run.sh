@@ -29,8 +29,8 @@ function get_env_id { curl -s "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KE
 
 DTR_ENV_ID=$(get_env_id)
 
-wget -O file.zip "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY:$WERCKER_DEPLOY_TO_RANCHER_SECRET_KEY@$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL/environments/$DTR_ENV_ID/composeconfig" --restrict-file-names=nocontrol
-unzip -o file.zip
+wget -qO file.zip "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY:$WERCKER_DEPLOY_TO_RANCHER_SECRET_KEY@$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL/environments/$DTR_ENV_ID/composeconfig"
+"$WERCKER_STEP_ROOT/unzip" -o file.zip
 
 if [ "$WERCKER_DEPLOY_TO_RANCHER_INPLACE" != true ]; then
   function get_old_service_name { sed -n "s/^\($WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME[^:]*\):[\r\n]$/\1/p" docker-compose.yml; }
