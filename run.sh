@@ -46,17 +46,12 @@ if [ "$WERCKER_DEPLOY_TO_RANCHER_INPLACE" != true ]; then
 fi
 
 # Update image in docker-compose.yml
-cat docker-compose.yml
 sed -i "s/^\(\s *image: $WERCKER_DEPLOY_TO_RANCHER_DOCKER_ORG\/$WERCKER_DEPLOY_TO_RANCHER_DOCKER_IMAGE\).*$/\1:$WERCKER_DEPLOY_TO_RANCHER_TAG/g" docker-compose.yml
-cat docker-compose.yml
 
 
 if [ "$WERCKER_DEPLOY_TO_RANCHER_INPLACE" == true ]; then
-  echo "rancher-compose" --url "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL" --access-key xxxx --secret-key xxxx --project-name "$WERCKER_DEPLOY_TO_RANCHER_STACK_NAME" up --upgrade "$WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME" --pull --interval 30000 --batch-size 1 -d
-  "$WERCKER_STEP_ROOT/rancher-compose" --url "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL" --access-key "$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY" --secret-key "$WERCKER_DEPLOY_TO_RANCHER_SECRET_KEY" --project-name "$WERCKER_DEPLOY_TO_RANCHER_STACK_NAME" up --upgrade "$WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME" --pull --interval 30000 --batch-size 1 -d
-  "$WERCKER_STEP_ROOT/rancher-compose" --url "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL" --access-key "$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY" --secret-key "$WERCKER_DEPLOY_TO_RANCHER_SECRET_KEY" --project-name "$WERCKER_DEPLOY_TO_RANCHER_STACK_NAME" up --upgrade "$WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME" --confirm-upgrade -d
-
+  "$WERCKER_STEP_ROOT/rancher-compose" --url "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL" --access-key "$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY" --secret-key "$WERCKER_DEPLOY_TO_RANCHER_SECRET_KEY" --project-name "$WERCKER_DEPLOY_TO_RANCHER_STACK_NAME" up -d --upgrade "$WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME" --pull --interval 30000 --batch-size 1
+  "$WERCKER_STEP_ROOT/rancher-compose" --url "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL" --access-key "$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY" --secret-key "$WERCKER_DEPLOY_TO_RANCHER_SECRET_KEY" --project-name "$WERCKER_DEPLOY_TO_RANCHER_STACK_NAME" up -d --upgrade "$WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME" --confirm-upgrade
 else
-  echo "rancher-compose" --url "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL" --access-key xxxx --secret-key xxxx --project-name "$WERCKER_DEPLOY_TO_RANCHER_STACK_NAME" upgrade "$DTR_OLD_SERVICE_NAME" "$WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME-$DTR_SUFFIX" --pull --update-links -c --interval 30000
   "$WERCKER_STEP_ROOT/rancher-compose" --url "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL" --access-key "$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY" --secret-key "$WERCKER_DEPLOY_TO_RANCHER_SECRET_KEY" --project-name "$WERCKER_DEPLOY_TO_RANCHER_STACK_NAME" upgrade "$DTR_OLD_SERVICE_NAME" "$WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME-$DTR_SUFFIX" --pull --update-links -c --interval 30000 --batch-size 1
 fi
