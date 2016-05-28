@@ -12,6 +12,7 @@
 # $WERCKER_DEPLOY_TO_RANCHER_DOCKER_IMAGE
 # $WERCKER_DEPLOY_TO_RANCHER_USE_TAG
 # $WERCKER_DEPLOY_TO_RANCHER_INPLACE
+# $WERCKER_DEPLOY_TO_RANCHER_START_FIRST
 
 if [ "$WERCKER_DEPLOY_TO_RANCHER_USE_TAG" == true ]; then
     export DTR_SUFFIX="$WERCKER_DEPLOY_TO_RANCHER_TAG";
@@ -48,7 +49,10 @@ fi
 # Update image in docker-compose.yml
 sed -i "s/^\(\s *image: $WERCKER_DEPLOY_TO_RANCHER_DOCKER_ORG\/$WERCKER_DEPLOY_TO_RANCHER_DOCKER_IMAGE\).*$/\1:$WERCKER_DEPLOY_TO_RANCHER_TAG/g" docker-compose.yml
 
-
+if [ "$WERCKER_DEPLOY_TO_RANCHER_START_FIRST" == true ]; then
+    # Add start first directive to rancher-compose.yml.
+    sed -i "s/\(^[a-zA-Z].*:\)/\1\r\n  upgrade_strategy:\r\n    start_first: true/g" file
+fi
 if [ "$WERCKER_DEPLOY_TO_RANCHER_INPLACE" == true ]; then
   echo "Starting upgrade..."
   "$WERCKER_STEP_ROOT/rancher-compose" --url "$DTR_PROTO://$WERCKER_DEPLOY_TO_RANCHER_RANCHER_URL" --access-key "$WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY" --secret-key "$WERCKER_DEPLOY_TO_RANCHER_SECRET_KEY" --project-name "$WERCKER_DEPLOY_TO_RANCHER_STACK_NAME" up -d --upgrade "$WERCKER_DEPLOY_TO_RANCHER_SERVICE_NAME" --pull --interval 30000 --batch-size 1
