@@ -1,4 +1,4 @@
-[![wercker status](https://app.wercker.com/status/ff788e3e0eb4b14e7c3363fb0f64789e/m/master "wercker status")](https://app.wercker.com/project/bykey/ff788e3e0eb4b14e7c3363fb0f64789e)[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+[![wercker status](https://app.wercker.com/status/a97a97980dd62f7c13fa5e2214fd43b1/m "wercker status")](https://app.wercker.com/project/bykey/a97a97980dd62f7c13fa5e2214fd43b1)[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 ## step-deploy-to-rancher
 
 Does a rolling update to rancher
