@@ -1,5 +1,5 @@
 name: deploy-to-rancher
-version: 0.9.3
+version: 0.9.4
 description: Do a rolling update to a rancher service
 keywords:
   - deploy
