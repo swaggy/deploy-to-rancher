@@ -1,5 +1,6 @@
-[![wercker status](https://app.wercker.com/status/a97a97980dd62f7c13fa5e2214fd43b1/m "wercker status")](https://app.wercker.com/project/bykey/a97a97980dd62f7c13fa5e2214fd43b1)[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
-## step-deploy-to-rancher
+[![wercker status](https://app.wercker.com/status/a97a97980dd62f7c13fa5e2214fd43b1/m "wercker status")](https://app.wercker.com/project/bykey/a97a97980dd62f7c13fa5e2214fd43b1)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+## deploy-to-rancher
 
 Does a rolling update to rancher
 
@@ -11,12 +12,11 @@ If I wanted to deploy billybob/awesome:3.0 I would use `docker_org: billybob`, `
 
 If your tag is unique each deploy, you should set `use_tag` to true. But it you always deploy the same tag (i.e. latest) you should set `use_tag` to false. `use_tag` just sets the rancher service name to include the tag, for example awesome-3.0 -> awesome-3.1. But if your tag is not unique, then a random number will be generated for you. Rancher enforces that the service has to have a new unique name on every deploy.
 
-
 Example:
 
     deploy:
       steps:
-        - nhumrich/deploy-to-rancher:
+        - swaggy/deploy-to-rancher:
             access_key: $RANCHER_ACCESS_KEY
             secret_key: $RANCHER_SECRET_KEY
             rancher_url: $RANCHER_URL
@@ -27,6 +27,5 @@ Example:
             docker_org: billybob  # name of organaztion
             docker_image: awesome
             use_tag: false
-            inplace: false
-
-Inplace upgrades added in 8.0. Just add the `inplace: true` section to the yaml
+            inplace: true
+            start_first: true
