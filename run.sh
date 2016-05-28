@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Have access to the following variables
 # $WERCKER_DEPLOY_TO_RANCHER_ACCESS_KEY
